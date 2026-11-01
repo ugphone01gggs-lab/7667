@@ -21,22 +21,12 @@ jobs:
     runs-on: ${{ matrix.config.os }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install font deps (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y fontconfig libfontconfig1 fonts-dejavu-core
-          mkdir -p "$HOME/.cache"
-          mkdir -p "$HOME/.local/share/geode"
-
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
           sdk: stable
           combine: true
           target: ${{ matrix.config.target }}
-
   package:
     name: Package builds
     runs-on: ubuntu-latest
@@ -48,4 +38,3 @@ jobs:
         with:
           name: Build Output
           path: ${{ steps.build.outputs.build-output }}
-          
